@@ -44,6 +44,7 @@
         <flatten.maven.plugin.version>1.2.7</flatten.maven.plugin.version>
         <!-- Basic core dependencies -->
         <spring-boot-dependencies.version>4.0.5</spring-boot-dependencies.version>
+        <spring-ai-bom.version>1.1.4</spring-ai-bom.version>
         <lombok.version>1.18.24</lombok.version>
         <!-- Company inside dependencies -->
         <!-- Open source dependencies -->
@@ -56,6 +57,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
