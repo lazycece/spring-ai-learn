@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.lazycece</groupId>
+    <artifactId>spring-ai-learn</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <url>https://github.com/lazycece/spring-ai-learn</url>
+
+    <scm>
+        <url>git@github.com:lazycece/spring-ai-learn.git</url>
+        <connection>scm:git:git@github.com:lazycece/spring-ai-learn.git</connection>
+        <developerConnection>scm:git:git@github.com:lazycece/spring-ai-learn.git</developerConnection>
+    </scm>
+    <developers>
+        <developer>
+            <name>lazycece</name>
+            <url>https://github.com/lazycece</url>
+            <email>lazycece@gmail.com</email>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
+    <modules>
+        <module>spring-ai-mcp</module>
+    </modules>
+    <properties>
+        <!-- Project Vision -->
+        <revision>0.0.1-SNAPSHOT</revision>
+        <!-- Basic config -->
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Maven plugin -->
+        <maven.compiler.plugin.version>3.6.2</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
+        <maven.source.plugin.version>3.0.1</maven.source.plugin.version>
+        <maven.deploy.plugin.version>2.8.2</maven.deploy.plugin.version>
+        <maven.javadoc.plugin.version>3.5.0</maven.javadoc.plugin.version>
+        <flatten.maven.plugin.version>1.2.7</flatten.maven.plugin.version>
+        <!-- Basic core dependencies -->
+        <spring-boot-dependencies.version>4.0.5</spring-boot-dependencies.version>
+        <lombok.version>1.18.24</lombok.version>
+        <!-- Company inside dependencies -->
+        <!-- Open source dependencies -->
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Basic core dependencies begin -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- Basic core dependencies end -->
+
+            <!-- Company inside dependencies begin -->
+            <!-- Company inside dependencies end -->
+
+            <!-- Open source dependencies begin-->
+            <!-- Open source dependencies end-->
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
