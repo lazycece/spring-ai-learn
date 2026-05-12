@@ -1,0 +1,36 @@
+
+### Send POST request with json body
+POST http://localhost:8080/chat/ai
+Content-Type: application/json
+
+{
+  "conversationId": "session-mcp",
+  "userInput": "数据库里有哪些表？"
+}
+
+### Send POST request with json body
+POST http://localhost:8080/chat/ai
+Content-Type: application/json
+
+{
+  "conversationId": "session-mcp",
+  "userInput": "products 表有哪些字段？"
+}
+
+### Send POST request with json body
+POST http://localhost:8080/chat/ai
+Content-Type: application/json
+
+{
+  "conversationId": "session-mcp",
+  "userInput": "帮我查一下库存不足 50 的商品有哪些？"
+}
+
+### Send POST request with json body
+POST http://localhost:8080/chat/ai
+Content-Type: application/json
+
+{
+  "conversationId": "session-mcp",
+  "userInput": "销售额最高的 5 个商品是什么？"
+}
