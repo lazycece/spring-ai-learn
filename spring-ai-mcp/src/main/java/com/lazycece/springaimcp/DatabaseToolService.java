@@ -1,14 +1,14 @@
 package com.lazycece.springaimcp;
 
 import java.sql.ResultSetMetaData;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ai.tool.annotation.Tool;
+import org.springaicommunity.mcp.annotation.McpTool;
+import org.springaicommunity.mcp.annotation.McpToolParam;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class DatabaseToolService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Tool(description = "列出数据库中所有表的名称")
+    @McpTool(description = "列出数据库中所有表的名称")
     public List<String> listTables() {
         log.info("Tool [listTables] called");
         return jdbcTemplate.queryForList(
@@ -32,8 +32,8 @@ public class DatabaseToolService {
         );
     }
 
-    @Tool(description = "查看指定表的结构，返回每列的列名、类型、长度和是否可空")
-    public List<ColumnInfo> describeTable(String tableName) {
+    @McpTool(description = "查看指定表的结构，返回每列的列名、类型、长度和是否可空")
+    public List<ColumnInfo> describeTable(@McpToolParam(description = "表名") String tableName) {
         log.info("Tool [describeTable] called, tableName={}", tableName);
         // security: only query current schema
         String sql = "SELECT COLUMN_NAME, TYPE_NAME, COLUMN_SIZE, NULLABLE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'PUBLIC' AND TABLE_NAME = ? ORDER BY ORDINAL_POSITION";
@@ -45,8 +45,8 @@ public class DatabaseToolService {
         ), tableName);
     }
 
-    @Tool(description = "执行只读 SELECT 查询，返回结果行列表。仅允许 SELECT 语句，禁止 INSERT/UPDATE/DELETE/DDL")
-    public List<Map<String, Object>> executeQuery(String sql) {
+    @McpTool(description = "执行只读 SELECT 查询，返回结果行列表。仅允许 SELECT 语句，禁止 INSERT/UPDATE/DELETE/DDL")
+    public List<Map<String, Object>> executeQuery(@McpToolParam(description = "SQL 查询语句（仅允许 SELECT）") String sql) {
         log.info("Tool [executeQuery] called, sql={}", sql);
         String trimmed = sql.trim().toUpperCase();
         if (!trimmed.startsWith("SELECT")) {
