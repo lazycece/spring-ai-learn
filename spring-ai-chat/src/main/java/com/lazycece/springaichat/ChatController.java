@@ -2,6 +2,7 @@ package com.lazycece.springaichat;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,7 +19,7 @@ public class ChatController {
     }
 
     @GetMapping("/ai")
-    String generation(String userInput) {
+    String generation(@RequestParam String userInput) {
         return this.chatClient.prompt()
                 .user(userInput)
                 .call()
