@@ -21,7 +21,10 @@
       "Bash(javap -p \"org/springframework/ai/chat/client/ChatClient$Builder.class\")",
       "Bash(javap -p org/springframework/ai/mcp/annotation/spring/SyncMcpAnnotationProviders.class)",
       "Bash(javap -p \"~/.m2/repository/org/springframework/ai/spring-ai-mcp-annotations/1.1.4/SyncMcpAnnotationProviders$SpringAiSyncToolProvider.class\")",
-      "Bash(javap -p \"SyncMcpAnnotationProviders$SpringAiSyncToolProvider.class\")"
+      "Bash(javap -p \"SyncMcpAnnotationProviders$SpringAiSyncToolProvider.class\")",
+      "Read(//tmp/**)",
+      "Bash(javap -c -p org/springframework/ai/chat/messages/AbstractMessage.class)",
+      "Bash(javap -c -p org/springframework/ai/openai/OpenAiChatModel.class)"
     ]
   }
 }
