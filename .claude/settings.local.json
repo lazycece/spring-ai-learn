@@ -2,7 +2,26 @@
   "permissions": {
     "allow": [
       "Bash(mvn dependency:resolve -f pom.xml)",
-      "WebSearch"
+      "WebSearch",
+      "Read(//c/Users/lazyc/.m2/repository/org/springframework/ai/**)",
+      "Bash(2)",
+      "Bash(jar xf:*)",
+      "Bash(javap -p org/springframework/ai/tool/annotation/Tool.class)",
+      "Bash(javap -p org/springframework/ai/tool/annotation/ToolParam.class)",
+      "Bash(mvn compile:*)",
+      "Bash(jar -tf ~/.m2/repository/org/springframework/ai/spring-ai-autoconfigure-mcp-client-httpclient/1.1.4/spring-ai-autoconfigure-mcp-client-httpclient-1.1.4.jar)",
+      "Bash(mvn dependency:resolve -pl spring-ai-chat)",
+      "Bash(jar -tf ~/.m2/repository/org/springframework/ai/spring-ai-autoconfigure-mcp-client-common/1.1.4/spring-ai-autoconfigure-mcp-client-common-1.1.4.jar)",
+      "Bash(python -c \"import json; data = json.load\\(open\\(''META-INF/spring-configuration-metadata.json''\\)\\); [print\\(f\"\"{p[''name'']} - {p.get\\(''type'', ''N/A''\\)} - {p.get\\(''description'', ''''\\)}\"\"\\) for p in data[''properties'']]\")",
+      "Bash(javap -p org/springframework/ai/mcp/client/common/autoconfigure/properties/McpSseClientProperties.class)",
+      "Bash(javap -p \"org/springframework/ai/mcp/client/common/autoconfigure/properties/McpSseClientProperties$SseParameters.class\")",
+      "Bash(javap -p org/springframework/ai/mcp/client/common/autoconfigure/McpToolCallbackAutoConfiguration.class)",
+      "Bash(javap -p org/springframework/ai/mcp/SyncMcpToolCallbackProvider.class)",
+      "Bash(javap -p org/springframework/ai/chat/client/ChatClient.class)",
+      "Bash(javap -p \"org/springframework/ai/chat/client/ChatClient$Builder.class\")",
+      "Bash(javap -p org/springframework/ai/mcp/annotation/spring/SyncMcpAnnotationProviders.class)",
+      "Bash(javap -p \"~/.m2/repository/org/springframework/ai/spring-ai-mcp-annotations/1.1.4/SyncMcpAnnotationProviders$SpringAiSyncToolProvider.class\")",
+      "Bash(javap -p \"SyncMcpAnnotationProviders$SpringAiSyncToolProvider.class\")"
     ]
   }
 }
