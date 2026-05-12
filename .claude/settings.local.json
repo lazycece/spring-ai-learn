@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mvn dependency:resolve -f pom.xml)",
+      "WebSearch"
+    ]
+  }
+}
