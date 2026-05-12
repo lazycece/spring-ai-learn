@@ -4,5 +4,24 @@ POST http://localhost:8080/chat/ai
 Content-Type: application/json
 
 {
+  "conversationId": "session-001",
   "userInput": "你好，我是jon"
+}
+
+### Send POST request with json body
+POST http://localhost:8080/chat/ai
+Content-Type: application/json
+
+{
+  "conversationId": "session-001",
+  "userInput": "spring ai这个框架怎么样"
+}
+
+### Send POST request with json body
+POST http://localhost:8080/chat/ai
+Content-Type: application/json
+
+{
+  "conversationId": "session-001",
+  "userInput": "你还记得我是谁吗？"
 }
