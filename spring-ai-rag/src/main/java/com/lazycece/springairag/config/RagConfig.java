@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 /**
  * RAG 核心组件配置类
  * <p>
- * Chat 客户端由 spring-ai-starter-model-openai 自动装配，
- * Embedding 客户端由 {@link EmbeddingConfig} 手动构建，
- * 此处仅配置向量存储、文档分块器和聊天外观 Bean。
+ * Chat 客户端由 spring-ai-starter-model-openai 自动装配（DeepSeek API），
+ * Embedding 客户端由 {@link EmbeddingConfig} 手动构建（阿里云 DashScope API），
+ * 二者完全独立、互不影响。此处仅配置向量存储、文档分块器和聊天外观 Bean。
  */
 @Configuration
 public class RagConfig {
@@ -23,8 +23,8 @@ public class RagConfig {
     /**
      * 向量存储 Bean
      * <p>
-     * 使用内存向量存储（SimpleVectorStore），注入 {@link EmbeddingConfig} 中手动构建的
-     * EmbeddingModel，启动时自动加载本地持久化文件，实现重启后数据不丢失。
+     * 使用内存向量存储（SimpleVectorStore），注入 EmbeddingConfig 手动构建的
+     * 阿里云 DashScope EmbeddingModel，启动时自动加载持久化文件，重启后数据不丢失。
      */
     @Bean
     public VectorStore vectorStore(EmbeddingModel embeddingModel) {

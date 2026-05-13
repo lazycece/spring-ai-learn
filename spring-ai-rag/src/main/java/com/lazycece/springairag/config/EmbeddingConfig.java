@@ -13,53 +13,51 @@ import org.springframework.context.annotation.Primary;
 /**
  * Embedding 客户端独立配置
  * <p>
- * 手动构建 Embedding API 客户端，与 Chat 客户端的自动装配完全分离。
- * 可独立配置 Embedding 的 base-url、api-key、model、embeddings-path，
- * 无需依赖 spring.ai.openai 的全局配置。
+ * 手动构建阿里云 DashScope Embedding API 客户端，与 Chat（DeepSeek）完全分离。
+ * DashScope 兼容 OpenAI 接口格式，通过 compatible-mode 端点调用。
  */
 @Configuration
 public class EmbeddingConfig {
 
-    /** Embedding API 地址 */
+    /** DashScope Embedding API 地址（兼容模式） */
     @Value("${spring.ai.rag.embedding.base-url}")
     private String baseUrl;
 
-    /** Embedding API 密钥 */
+    /** DashScope API 密钥 */
     @Value("${spring.ai.rag.embedding.api-key}")
     private String apiKey;
 
-    /** Embedding 模型名称 */
+    /** Embedding 模型名称（如 text-embedding-v4） */
     @Value("${spring.ai.rag.embedding.model}")
     private String model;
 
-    /** Embedding API 路径（如 /v1/embeddings） */
+    /** Embedding API 路径 */
     @Value("${spring.ai.rag.embedding.embeddings-path}")
     private String embeddingsPath;
 
     /**
      * 手动构建 EmbeddingModel Bean
      * <p>
-     * 使用独立的 OpenAiApi 实例构建 Embedding 模型客户端，
-     * 配置与 Chat 客户端完全解耦，可指向不同的 API 地址或路径。
+     * 使用独立的 OpenAiApi 实例连接阿里云 DashScope Embedding 服务。
+     * 通过 @Primary 覆盖 spring-ai-starter-model-openai 自动装配的 EmbeddingModel。
      *
-     * @return 手动构建的 EmbeddingModel 实例
+     * @return DashScope EmbeddingModel 实例
      */
     @Bean
     @Primary
     public EmbeddingModel embeddingModel() {
-        // 1. 构建独立的 OpenAiApi 客户端
+        // 构建独立的 OpenAiApi 客户端，指向 DashScope 兼容模式端点
         OpenAiApi api = OpenAiApi.builder()
                 .baseUrl(baseUrl)
                 .apiKey(apiKey)
                 .embeddingsPath(embeddingsPath)
                 .build();
 
-        // 2. 配置 Embedding 选项（模型名称等）
+        // 配置 Embedding 选项：模型名称
         OpenAiEmbeddingOptions options = OpenAiEmbeddingOptions.builder()
                 .model(model)
                 .build();
 
-        // 3. 构建 EmbeddingModel
         return new OpenAiEmbeddingModel(api, MetadataMode.EMBED, options);
     }
 }
