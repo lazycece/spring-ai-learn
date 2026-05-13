@@ -1,0 +1,74 @@
+# ============================================================
+# Spring AI RAG 模块接口测试
+# 端口: 8082
+# ============================================================
+
+### 1. 文本入库 —— 将文本内容分块、向量化后存入向量库
+POST http://localhost:8082/rag/ingest/text
+Content-Type: application/json
+
+{
+  "content": "Spring AI 是 Spring 生态的 AI 框架，旨在简化 AI 应用的开发。它提供了对各种 AI 模型（LLM、Embedding、Image Generation 等）和向量数据库的统一抽象接口。",
+  "metadata": {
+    "source": "manual",
+    "title": "Spring AI 简介"
+  }
+}
+
+### 2. 文件上传入库 —— 上传 spring-ai-faq.md 示例文档
+POST http://localhost:8082/rag/ingest/file
+Content-Type: multipart/form-data; boundary=----boundary
+
+------boundary
+Content-Disposition: form-data; name="file"; filename="spring-ai-faq.md"
+Content-Type: text/markdown
+
+# Spring AI 常见问题
+
+## 什么是 Spring AI？
+Spring AI 是 Spring 生态的 AI 框架，旨在简化 AI 应用的开发。它提供了与各种 AI 模型（LLM、Embedding、Image Generation 等）和向量数据库的统一抽象接口。
+
+## Spring AI 支持哪些向量数据库？
+- SimpleVectorStore：基于内存的向量存储，适合开发和 Demo
+- PgVector：基于 PostgreSQL 的向量存储
+- Redis：基于 Redis Stack 的向量存储
+- Milvus、Chroma、Qdrant、Weaviate 等
+
+## 如何实现 RAG？
+1. 文档读取：使用 DocumentReader 读取文档
+2. 文档分块：使用 TextSplitter 将长文档切分为小块
+3. 向量化：使用 EmbeddingModel 将文本块转换为向量
+4. 存储：将向量存入 VectorStore
+5. 检索：用户提问时在向量库中检索相关文档
+6. 增强生成：检索到的文档作为上下文，与用户问题一起发送给 LLM
+------boundary--
+
+### 3. RAG 问答 —— 基于已入库文档回答
+POST http://localhost:8082/rag/query
+Content-Type: application/json
+
+{
+  "question": "Spring AI 支持哪些向量数据库？",
+  "topK": 4
+}
+
+### 4. RAG 问答 —— 检索不到时的表现
+POST http://localhost:8082/rag/query
+Content-Type: application/json
+
+{
+  "question": "今天天气怎么样？",
+  "topK": 4
+}
+
+### 5. RAG 问答 —— 追问细节
+POST http://localhost:8082/rag/query
+Content-Type: application/json
+
+{
+  "question": "SimpleVectorStore 适合什么场景？",
+  "topK": 3
+}
+
+### 6. 查看向量库状态
+GET http://localhost:8082/rag/documents

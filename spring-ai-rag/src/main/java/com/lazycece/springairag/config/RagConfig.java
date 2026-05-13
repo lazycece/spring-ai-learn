@@ -13,7 +13,9 @@ import org.springframework.context.annotation.Configuration;
 /**
  * RAG 核心组件配置类
  * <p>
- * 配置向量存储、文档分块器和聊天客户端三个核心 Bean。
+ * Chat 客户端由 spring-ai-starter-model-openai 自动装配，
+ * Embedding 客户端由 {@link EmbeddingConfig} 手动构建，
+ * 此处仅配置向量存储、文档分块器和聊天外观 Bean。
  */
 @Configuration
 public class RagConfig {
@@ -21,8 +23,8 @@ public class RagConfig {
     /**
      * 向量存储 Bean
      * <p>
-     * 使用内存向量存储（SimpleVectorStore），启动时自动加载本地持久化文件，
-     * 实现重启后数据不丢失。
+     * 使用内存向量存储（SimpleVectorStore），注入 {@link EmbeddingConfig} 中手动构建的
+     * EmbeddingModel，启动时自动加载本地持久化文件，实现重启后数据不丢失。
      */
     @Bean
     public VectorStore vectorStore(EmbeddingModel embeddingModel) {
@@ -48,10 +50,11 @@ public class RagConfig {
     /**
      * 聊天客户端 Bean
      * <p>
-     * 使用 Fluent API 构建，添加日志 Advisor 用于 DEBUG 级别输出请求详情。
+     * ChatModel 由 spring-ai-starter-model-openai 自动装配（基于 spring.ai.openai.* 配置），
+     * ChatClient 在此手动构建，对自动装配的 ChatModel 进行包装，添加日志 Advisor。
      */
     @Bean
-    public ChatClient chatClient(ChatModel chatModel, VectorStore vectorStore) {
+    public ChatClient chatClient(ChatModel chatModel) {
         return ChatClient.builder(chatModel)
                 .defaultAdvisors(new SimpleLoggerAdvisor())
                 .build();

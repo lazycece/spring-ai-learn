@@ -25,7 +25,9 @@
       "Read(//tmp/**)",
       "Bash(javap -c -p org/springframework/ai/chat/messages/AbstractMessage.class)",
       "Bash(javap -c -p org/springframework/ai/openai/OpenAiChatModel.class)",
-      "Bash(ls -d ~/.m2/repository/org/springframework/ai/spring-ai-vector-*)"
+      "Bash(ls -d ~/.m2/repository/org/springframework/ai/spring-ai-vector-*)",
+      "Bash(jar tf:*)",
+      "Bash(javap:*)"
     ]
   }
 }
