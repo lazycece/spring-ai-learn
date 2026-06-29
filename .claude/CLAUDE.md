@@ -5,7 +5,7 @@
 - spring-ai-rag 检索增强(retrieval augmented generation)模块
 
 ## 工程环境
-- spring ai 版本 1.1.4
+- spring ai 版本 1.1.8
 - Java 版本 17
 - Spring Boot 版本 3.5.13
 
