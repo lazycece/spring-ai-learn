@@ -6,9 +6,9 @@
 - spring-ai-toolcalling 工具调用模块
 
 ## 工程环境
-- spring ai 版本 1.1.8
-- Java 版本 17
-- Spring Boot 版本 3.5.13
+- spring ai 版本 2.0.0
+- Java 版本 21
+- Spring Boot 版本 4.1.0
 
 ## 编码规范
 - 生成的代码（如类、成员变量、关键业务逻辑点）需要加中文注释
