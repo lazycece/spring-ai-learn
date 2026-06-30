@@ -7,7 +7,7 @@
 
 ## 工程环境
 - spring ai 版本 2.0.0
-- Java 版本 21
+- Java 版本 17
 - Spring Boot 版本 4.1.0
 
 ## 编码规范
