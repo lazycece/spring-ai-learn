@@ -70,5 +70,36 @@ Content-Type: application/json
   "topK": 3
 }
 
+### ============================================================
+### 模块化 RAG 接口测试（使用 RetrievalAugmentationAdvisor）
+### ============================================================
+
+### 7. 模块化 RAG 问答 —— 基本问答
+POST http://localhost:8082/rag/modular-query
+Content-Type: application/json
+
+{
+  "question": "Spring AI 支持哪些向量数据库？",
+  "topK": 4
+}
+
+### 8. 模块化 RAG 问答 —— 检索不到时的表现
+POST http://localhost:8082/rag/modular-query
+Content-Type: application/json
+
+{
+  "question": "今天天气怎么样？",
+  "topK": 4
+}
+
+### 9. 模块化 RAG 问答 —— 多角度追问
+POST http://localhost:8082/rag/modular-query
+Content-Type: application/json
+
+{
+  "question": "SimpleVectorStore 适合什么场景？如何实现RAG？",
+  "topK": 3
+}
+
 ### 6. 查看向量库状态
 GET http://localhost:8082/rag/documents
