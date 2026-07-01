@@ -1,7 +1,6 @@
 package com.lazycece.springairag.config;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
 import org.springframework.ai.rag.generation.augmentation.ContextualQueryAugmenter;
@@ -187,17 +186,4 @@ public class ModularRagConfig {
                 .build();
     }
 
-    /**
-     * 模块化 RAG 聊天客户端 —— 携带完整 RAG Advisor 管道的 ChatClient
-     * <p>
-     * 与 RagConfig 中的 chatClient 并存，使用不同的 Bean 名称（modularChatClient）。
-     * 调用时会自动执行完整的 Pre-Retrieval → Retrieval → Post-Retrieval → Generation 流程。
-     */
-    @Bean
-    public ChatClient modularChatClient(ChatClient.Builder chatClientBuilder,
-                                        RetrievalAugmentationAdvisor retrievalAugmentationAdvisor) {
-        return chatClientBuilder
-                .defaultAdvisors(new SimpleLoggerAdvisor(), retrievalAugmentationAdvisor)
-                .build();
-    }
 }

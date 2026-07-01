@@ -8,7 +8,6 @@ import org.springframework.ai.document.Document;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,27 +21,35 @@ import java.util.List;
  * 使用 Spring AI 2.0.0 模块化 RAG 架构（RetrievalAugmentationAdvisor）
  * 实现完整的 Pre-Retrieval → Retrieval → Post-Retrieval → Generation 管道。
  * <p>
- * 与原有的 {@link RagController} 并存，提供独立的问答端点。
+ * 与原有的 {@link RagController} 并存，复用同一个 ChatClient Bean，
+ * 通过每次请求时动态挂载 RetrievalAugmentationAdvisor 实现模块化 RAG。
  */
 @RestController
 @RequestMapping("/rag")
 public class ModularRagController {
 
-    /** 模块化 RAG 聊天客户端，携带完整 RAG Advisor 管道 */
-    private final ChatClient modularChatClient;
+    /** 聊天客户端（复用 RagConfig 中的 ChatClient Bean） */
+    private final ChatClient chatClient;
+
+    /** 模块化 RAG Advisor，按请求动态挂载 */
+    private final RetrievalAugmentationAdvisor retrievalAugmentationAdvisor;
 
     /** 向量存储（用于回退时手动获取来源文档） */
     private final VectorStore vectorStore;
 
-    public ModularRagController(
-            @Qualifier("modularChatClient") ChatClient modularChatClient,
-            VectorStore vectorStore) {
-        this.modularChatClient = modularChatClient;
+    public ModularRagController(ChatClient chatClient,
+                                RetrievalAugmentationAdvisor retrievalAugmentationAdvisor,
+                                VectorStore vectorStore) {
+        this.chatClient = chatClient;
+        this.retrievalAugmentationAdvisor = retrievalAugmentationAdvisor;
         this.vectorStore = vectorStore;
     }
 
     /**
      * 模块化 RAG 问答接口
+     * <p>
+     * 通过 {@code .advisors(retrievalAugmentationAdvisor)} 在每次请求时
+     * 动态挂载 RAG 管道，不影响原有 /rag/query 等接口的行为。
      * <p>
      * 完整的 RAG 管道流程：
      * <ol>
@@ -51,17 +58,15 @@ public class ModularRagController {
      *   <li>Post-Retrieval：DocumentPostProcessor 去重、截断、过滤</li>
      *   <li>Generation：ContextualQueryAugmenter 注入上下文 → LLM 生成回答</li>
      * </ol>
-     * <p>
-     * 与 /rag/query 的区别：本接口使用 Spring AI 模块化 RAG 架构，
-     * 由 RetrievalAugmentationAdvisor 自动编排管道，不需要手动检索和拼接上下文。
      *
      * @param request 包含用户问题
      * @return 回答及引用的来源文档
      */
     @PostMapping("/modular-query")
     public QueryResponse modularQuery(@RequestBody QueryRequest request) {
-        // 通过模块化 RAG 管道生成回答
-        ChatClientResponse response = modularChatClient.prompt()
+        // 复用全局 ChatClient，按请求动态挂载模块化 RAG Advisor
+        ChatClientResponse response = chatClient.prompt()
+                .advisors(retrievalAugmentationAdvisor)  // 仅本次请求启用 RAG 管道
                 .user(request.getQuestion())
                 .call()
                 .chatClientResponse();
